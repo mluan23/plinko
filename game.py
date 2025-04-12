@@ -4,6 +4,7 @@ import random
 from ball import Ball
 from settings import *
 from board import *
+from obstacles import *
 
 
 ctypes.windll.user32.SetProcessDPIAware()
@@ -40,22 +41,29 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                     # so we would like to change this for later
                     random_x = WIDTH//2 + random.choice([random.randint(-20,-1), random.randint(1,20)])
+                    # delta time helps get close to agnostic game
                     self.ball = Ball((random_x, 20), self.space, self.board, self.delta_time)
+                    self.ball_group.add(self.ball)
+                    # self.balls_played += 1
+                    # print(self.balls_played)
 
 
             self.screen.fill(BG_COLOR)
 
             # helps take care of phsics
-            self.delta_time = (pygame.time.get_ticks() - self.start_time) / 1000
+            self.delta_time = self.clock.tick(FPS) / 1000.0
             #self.start_time = pygame.time.get_ticks()
-            self.clock.tick(FPS)
+            #self.clock.tick(FPS)
 
             # pymunk
             self.space.step(self.delta_time)
             self.board.update()
             self.ball_group.update()
 
+
             pygame.display.update()
+            # for ball in self.ball_group:
+            #     self.ball_group.remove(ball)
 
 
 if __name__ == '__main__':

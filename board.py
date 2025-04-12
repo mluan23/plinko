@@ -44,7 +44,7 @@ class Board():
         for obstacle in obstacles:
             pos_x = int(obstacle.body.position.x)
             pos_y = int(obstacle.body.position.y)
-            pygame.draw.circle(self.display_surface, (255,0,0), (pos_x,pos_y), OBSTACLE_RAD)
+            pygame.draw.circle(self.display_surface, OBSTACLE_COLOR, (pos_x,pos_y), OBSTACLE_RAD)
 
     def update(self):
         self.draw_obstacle(self.obstacles_list)
