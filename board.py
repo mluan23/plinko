@@ -1,6 +1,7 @@
-#from obstacles import obstacle
+from obstacles import *
 from settings import *
 import pygame, pymunk
+from multi import *
 
 class Board():
     def __init__(self, space):
@@ -39,6 +40,19 @@ class Board():
         self.spawn_segments(self.segmentB_1, self.segmentB_2, self.space)
         self.spawn_segments((self.segmentA_2[0], 0), self.segmentA_2, self.space)
         self.spawn_segments(self.segmentB_1, (self.segmentB_1[0], 0), self.space)
+
+        self.spawn_multis()
+
+
+    def spawn_multis(self):
+        self.multi_amounts = [val[1] for val in multi_rgb.keys()]
+        self.rgb_vals = [val for val in multi_rgb.values()]
+        for i in range(NUM_MULT):
+            multi = Multi((self.multi_x, self.multi_y), self.rgb_vals[i], self.multi_amounts[i])
+            multi_group.add(multi)
+            self.multi_x += OBSTACLE_PAD
+
+    #def draw_multis(self, multi_group):
     def spawn_obstacle(self, position, space):
         body = pymunk.Body(body_type=pymunk.Body.STATIC)
         body.position = position
@@ -67,3 +81,5 @@ class Board():
 
     def update(self):
         self.draw_obstacle(self.obstacles_list)
+        multi_group.draw(self.display_surface)
+        multi_group.update()
