@@ -21,7 +21,7 @@ class Multi(pygame.sprite.Sprite):
         self.prev_multi = int(WIDTH/21.3)
 
         # animation stuff, framerate indepdent; we prob will omit these in the future
-        self.animated_Frames = 0
+        self.animated_frames = 0
         self.animation_frames = int(0.25 / delta_time)
         self.is_animating = False
 
@@ -31,3 +31,20 @@ class Multi(pygame.sprite.Sprite):
         text_surface = self.font.render(f"{self.multi_amt}x", True, (0,0,0))
         text_rect = text_surface.get_rect(center=self.image.get_rect().center)
         self.image.blit(text_surface, text_rect)
+
+    def hit_sound(self):
+        pass
+
+    def animate(self, color, amount):
+        if self.animated_frames < self.animation_frames // 2:
+            self.rect.bottom += 2
+        else:
+            self.rect.bottom -= 2
+        self.animated_frames += 1
+        if self.animated_frames == (self.animation_frames // 2) * 2:
+            self.is_animating = False
+            self.animated_frames = 0
+
+    def update(self):
+        if self.is_animating:
+            self.animate(self.color, self.multi_amt)

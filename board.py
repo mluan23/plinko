@@ -83,3 +83,4 @@ class Board():
         self.draw_obstacle(self.obstacles_list)
         multi_group.draw(self.display_surface)
         multi_group.update()
+
